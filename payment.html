@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 결제하기</title>
+    <style>
+        /* CSS 코드는 아래 섹션에 있습니다. */
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <header class="payment-header">
+            <h2>결제하기</h2>
+        </header>
+
+        <section class="summary-section">
+            <h3>🛍️ 주문 요약</h3>
+            <div class="summary-item">
+                <span class="label">상품명</span>
+                <span class="value">[홀리데이 이참장패] AGE 20's 2+3+림</span>
+            </div>
+            <div class="summary-item total">
+                <span class="label">총 결제 금액</span>
+                <span class="total-price">98,000원</span>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section class="method-section">
+            <h3>💰 결제 수단</h3>
+            <div class="method-select active-method">
+                신용/체크카드 (선택됨)
+            </div>
+            </section>
+
+        <section class="card-form-section">
+            <form action="#결제_처리_백엔드_URL" method="POST">
+                
+                <div class="input-group">
+                    <label for="card-company">카드사 선택</label>
+                    <select id="card-company" required>
+                        <option value="">카드사를 선택해 주세요</option>
+                        <option value="shinhan">신한카드</option>
+                        <option value="kookmin">KB국민카드</option>
+                        <option value="samsung">삼성카드</option>
+                        </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="card-number-1">카드 번호</label>
+                    <div class="card-number-fields">
+                        <input type="text" id="card-number-1" maxlength="4" pattern="\d{4}" placeholder="0000" required>
+                        <span>-</span>
+                        <input type="text" id="card-number-2" maxlength="4" pattern="\d{4}" placeholder="0000" required>
+                        <span>-</span>
+                        <input type="text" id="card-number-3" maxlength="4" pattern="\d{4}" placeholder="0000" required>
+                        <span>-</span>
+                        <input type="text" id="card-number-4" maxlength="4" pattern="\d{4}" placeholder="0000" required>
+                    </div>
+                </div>
+
+                <div class="input-group split">
+                    <div class="input-half">
+                        <label for="expiry-month">유효 기간 (월/년)</label>
+                        <div class="expiry-fields">
+                            <input type="text" id="expiry-month" maxlength="2" pattern="\d{2}" placeholder="MM" required>
+                            <span>/</span>
+                            <input type="text" id="expiry-year" maxlength="2" pattern="\d{2}" placeholder="YY" required>
+                        </div>
+                    </div>
+                    <div class="input-half">
+                        <label for="cvc">CVC/CVV</label>
+                        <input type="text" id="cvc" maxlength="3" pattern="\d{3}" placeholder="3자리" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="holder-name">카드 소유주 이름</label>
+                    <input type="text" id="holder-name" placeholder="Name on Card" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="installments">할부 기간</label>
+                    <select id="installments" required>
+                        <option value="0">일시불</option>
+                        <option value="2">2개월</option>
+                        <option value="3">3개월</option>
+                        <option value="6">6개월</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="final-pay-button">98,000원 결제하기</button>
+
+            </form>
+        </section>
+
+    </div>
+</body>
+</html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+</body>
+</html>
