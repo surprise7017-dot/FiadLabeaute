@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 관리 화면</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 관리자 페이지 전용 스타일 */
+        #admin-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        #admin-container h2 { border-bottom: 2px solid #cc0066; padding-bottom: 10px; margin-bottom: 20px; }
+        .product-form div { margin-bottom: 15px; }
+        .product-form label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        .product-form input[type="text"], .product-form textarea, .product-form input[type="number"] {
+            width: 100%; padding: 10px; border: 1px solid #ddd; box-sizing: border-box; border-radius: 4px;
+        }
+        .product-form input[type="file"] { padding: 5px 0; }
+        .product-form button { padding: 10px 20px; background-color: #cc0066; color: white; border: none; cursor: pointer; border-radius: 4px; }
+
+        /* 제품 목록 스타일 */
+        #product-list-admin { list-style: none; padding: 0; }
+        #product-list-admin li { background: #fff; padding: 15px; border: 1px solid #eee; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        #product-list-admin .actions button { margin-left: 10px; background-color: #555; }
+    </style>
+</head>
+<body>
+
+    <div id="admin-container">
+        <h2>🛍️ 제품 등록 및 수정</h2>
+
+        <form id="product-upload-form" class="product-form">
+            <h3>새 제품 등록</h3>
+            <div>
+                <label for="video-file">동영상 업로드</label>
+                <input type="file" id="video-file" accept="video/*" required>
+            </div>
+            <div>
+                <label for="product-name">제품 설명 (이름)</label>
+                <input type="text" id="product-name" placeholder="홀치데이 이 찹찹째 이지..." required>
+            </div>
+            <div>
+                <label for="price">가격 (원)</label>
+                <input type="number" id="price" placeholder="98000" min="0" required>
+            </div>
+            <div>
+                <label for="sale-rate">할인율 (%)</label>
+                <input type="number" id="sale-rate" placeholder="1" min="0" max="100">
+            </div>
+            <button type="submit">제품 등록/수정</button>
+        </form>
+
+        <hr style="margin: 30px 0;">
+
+        <h2>📜 등록된 제품 목록</h2>
+        <ul id="product-list-admin">
+            <li>
+                <span>[P001] 홀치데이 퀼모재트 (98,000원)</span>
+                <div class="actions">
+                    <button onclick="editProduct('P001')">수정</button>
+                    <button onclick="deleteProduct('P001')">삭제</button>
+                </div>
+            </li>
+            <li>
+                <span>[P002] 570암 밑싱초 (98,000원)</span>
+                <div class="actions">
+                    <button onclick="editProduct('P002')">수정</button>
+                    <button onclick="deleteProduct('P002')">삭제</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('product-upload-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // 1. 폼 데이터 수집
+            const videoFile = document.getElementById('video-file').files[0];
+            const name = document.getElementById('product-name').value;
+            const price = document.getElementById('price').value;
+            const saleRate = document.getElementById('sale-rate').value || 0;
+
+            if (!videoFile) {
+                alert("동영상 파일을 선택해 주세요.");
+                return;
+            }
+
+            // 💡 주의: 이 코드는 클라이언트(브라우저)에서 실행됩니다.
+            // 실제 구현에서는 이 데이터를 **AJAX(Fetch API)**를 통해 서버로 전송해야 합니다.
+            
+            // 2. 서버 통신 (예시)
+            console.log(`[제품 데이터 전송 준비] 이름: ${name}, 가격: ${price}, 할인율: ${saleRate}, 파일명: ${videoFile.name}`);
+
+            // FormData 객체를 사용하여 파일을 포함한 데이터를 서버로 보냅니다.
+            /*
+            const formData = new FormData();
+            formData.append('video', videoFile);
+            formData.append('name', name);
+            formData.append('price', price);
+            formData.append('saleRate', saleRate);
+            
+            fetch('/api/products/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('제품이 성공적으로 등록되었습니다.');
+                // 성공 후 폼 초기화 및 목록 새로고침
+                e.target.reset();
+                // refreshProductList();
+            })
+            .catch(error => {
+                alert('제품 등록 중 오류가 발생했습니다.');
+            });
+            */
+            alert(`[데모] 제품 등록/수정 요청 완료. 실제 서버 전송 로직이 필요합니다.`);
+        });
+
+        // 제품 수정 버튼 클릭 시 동작 (실제 구현 시 제품 정보를 폼에 로드해야 함)
+        function editProduct(productId) {
+            alert(`${productId} 제품의 수정 모드를 활성화합니다. (DB에서 정보 로드 필요)`);
+            // 여기에 DB에서 해당 제품 정보를 가져와서 폼에 채우는 로직을 구현합니다.
+        }
+
+        // 제품 삭제 버튼 클릭 시 동작
+        function deleteProduct(productId) {
+            if (confirm(`${productId} 제품을 정말로 삭제하시겠습니까?`)) {
+                // 여기에 서버에 삭제 요청을 보내는 로직을 구현합니다.
+                alert(`[데모] ${productId} 제품 삭제 요청 완료. 실제 서버 삭제 로직 필요.`);
+                // 성공 시 목록에서 제거
+            }
+        }
+    </script>
+</body>
+</html>
