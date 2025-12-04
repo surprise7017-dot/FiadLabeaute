@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 진행</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* payment.html 전용 스타일 */
+        #payment-container { max-width: 400px; margin: 50px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        #payment-summary h3 { color: #cc0066; }
+        #payment-summary p { font-size: 16px; margin-bottom: 10px; }
+        #payment-form { margin-top: 20px; }
+        #payment-button { width: 100%; padding: 15px; background-color: #ff007f; color: white; border: none; cursor: pointer; font-size: 18px; font-weight: bold; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div id="payment-container">
+        <h2>결제 상세 정보</h2>
+
+        <div id="payment-summary">
+            <h3>주문 상품: 홀치데이 퀼모재트</h3>
+            <p>상품 금액: 98,000원</p>
+            <p>배송비: 3,000원</p>
+            <p style="font-size: 20px; font-weight: bold; color: #cc0066;">최종 결제 금액: 101,000원</p>
+        </div>
+        
+        <form id="payment-form" method="POST" action="/api/payment/request"> 
+            <input type="hidden" name="product_id" value="P001">
+            <input type="hidden" name="order_id" id="order-id" value=""> 
+            <input type="hidden" name="amount" value="101000">
+            <input type="hidden" name="buyer_name" value="사용자이름">
+            <input type="hidden" name="buyer_email" value="user@example.com">
+            
+            <div style="margin: 20px 0;">
+                <label><input type="radio" name="pay_method" value="CARD" checked> 카드 결제</label>
+                <label><input type="radio" name="pay_method" value="BANK"> 계좌이체</label>
+            </div>
+
+            <button type="submit" id="payment-button">101,000원 결제하기</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 주문번호(Order ID)는 서버 요청 전 클라이언트에서 임시 생성하거나,
+            // 더 안전하게는 서버에서 미리 발급받아 와서 여기에 채워 넣는 것이 좋습니다.
+            const generateOrderId = () => {
+                return 'ORDER_' + Date.now() + Math.floor(Math.random() * 1000);
+            };
+            document.getElementById('order-id').value = generateOrderId();
+        });
+
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            // 결제 폼 제출 시, 이 데이터는 서버의 '/api/payment/request'로 전송됩니다.
+            console.log("결제 요청 데이터를 서버로 전송합니다. 서버는 PG사로 리다이렉트합니다.");
+            // e.preventDefault(); // 실제 제출을 막지 않고, 서버로 전송되도록 합니다.
+            
+            // 주의: 이 시점부터는 백엔드 서버에서 로직이 처리됩니다.
+            // 서버는 받은 데이터를 바탕으로 PG사 API를 호출하고, 응답으로 받은 PG사 결제창 URL로 사용자(브라우저)를 리다이렉트(302) 시킵니다.
+        });
+    </script>
+</body>
+</html>
